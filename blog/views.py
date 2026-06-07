@@ -8,10 +8,17 @@ def blog_view(request):
     context = {'posts': posts}
     return render(request, 'blog/blog-home.html', context)
 
+
 def blog_single(request, pid):
     posts = Post.objects.filter(status = 1)
     post = get_object_or_404(posts, pk=pid)
-    context = {'post': post}
+    next_post = Post.objects.filter(id__gt=post.id).order_by('id').first()
+    prev_post = Post.objects.filter(id__lt=post.id).order_by('-id').first()
+    context = {
+                'post': post,
+                'next_post': next_post,
+                'prev_post': prev_post,
+            }
     return render(request, 'blog/blog-single.html', context)
 
 
