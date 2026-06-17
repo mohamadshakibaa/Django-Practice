@@ -9,9 +9,6 @@
 <body>
     <p>Test  (total posts that their status are True): {% count %}</p>
     
-    <h1>{% total as te %}</h1>
-    {% for post in te %}
-        <p>{{post}}</p>
-    {% endfor %}
+    {% popularposts %}
 </body>
 </html>
