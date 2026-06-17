@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{% load blog_tags %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <center><h2>{{post.published_date}}</h2></center>
+    <p>Test  (total posts that their status are True): {% count %}</p>
+    
+    <h1>{% total as te %}</h1>
+    {% for post in te %}
+        <p>{{post}}</p>
+    {% endfor %}
 </body>
 </html>

@@ -46,3 +46,7 @@ def test(request, pid):
     }
 
     return render(request, 'test.html', context)
+
+
+def test1(request):
+    return render (request, 'test.html')
