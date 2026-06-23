@@ -3502,7 +3502,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .blog-pagination .page-item.active .page-link {
-  background-color: #f8b600;
+  background-color: #00a5f8;
   border-color: transparent;
   color: #fff;
 }
