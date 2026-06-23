@@ -103,9 +103,10 @@
             <ul class="tags">
               <h5 class="post-date">
                 {% for cat in post.category.all %}
-                {{ cat.name }}
+                <a href="{% url 'blog:category' cat_name=cat.name %}">{{ cat.name }}
                 {% if not forloop.last %},
                 {% endif %}
+                </a>
                 {% endfor %}</h5>
             </ul>
             <div class="user-details row">

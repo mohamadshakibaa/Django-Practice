@@ -3,8 +3,10 @@ from blog.models import Post
 from django.utils import timezone
 
 
-def blog_view(request):
+def blog_view(request, cat_name=None):
     posts = Post.objects.filter(status = 1)
+    if cat_name:
+        posts = posts.filter(category__name=cat_name)
     context = {'posts': posts}
     return render(request, 'blog/blog-home.html', context)
 
@@ -50,3 +52,10 @@ def test(request, pid):
 
 def test1(request):
     return render (request, 'test.html')
+
+#  (((((tabdil shod be 2url dar 1 view)))))
+# def blog_category(request, cat_name):
+#     posts = Post.objects.filter(status=1)
+#     posts = posts.filter(category__name=cat_name)
+#     context = {'posts': posts}
+#     return render(request, 'blog/blog-home.html', context)
