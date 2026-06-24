@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from blog.models import Post
 from website.forms import NameForm, ContactForm
 
@@ -12,7 +12,12 @@ def about(request):
     return render(request, 'website/about.html')
 
 def contact(request):
-    return render(request, 'website/contact.html')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+    form = ContactForm()
+    return render(request, 'website/contact.html', {'form': form})
 
 def elements(request):
     return render(request, 'website/elements.html')
