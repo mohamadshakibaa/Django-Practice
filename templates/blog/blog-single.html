@@ -74,19 +74,24 @@
                 {% endfor %}</h5>
                 </ul>
               </ul>
-            <div class="quotes">
-              {% if prev_post %}
-              <a href="{% url 'blog:single' pid=prev_post.id %}">
-                  Previous
-              </a>
-              {% endif %}
-
-              {% if next_post %}
-              <a href="{% url 'blog:single' pid=next_post.id %}">
-                  Next
-              </a>
-              {% endif %}
+            <div class="tags">
+                <div class="quotes">
+                    {% if prev_post %}
+                    <a class="btn btn-primary" href="{% url 'blog:single' pid=prev_post.id %}">
+                      Previous
+                    </a>
+                    {% endif %}
+                    {% if next_post %}
+                    <a class="btn btn-primary" href="{% url 'blog:single' pid=next_post.id %}">
+                      Next
+                    </a>
+                    {% endif %}
+                </div>
             </div>
+                          
+
+
+
             <div class="row mt-30 mb-30">
               <div class="col-6">
                 <img

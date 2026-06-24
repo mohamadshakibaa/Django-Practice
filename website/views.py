@@ -1,9 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from blog.models import Post
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def index(request):
-    return render(request, 'website/index.html')
+    posts = Post.objects.filter(status=1)
+    context = {'posts': posts}
+    return render(request, 'website/index.html', context)
 
 def about(request):
     return render(request, 'website/about.html')
