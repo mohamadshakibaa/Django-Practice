@@ -51,14 +51,10 @@ def blog_single(request, pid):
 
 def test(request, pid):
     post = get_object_or_404(Post, pk=pid)
-
     if post.published_date > timezone.now():
         return render(request, '404.html', status=404)
-
-    context = {
-        'post': post
-    }
-
+    
+    context = {'post': post}
     return render(request, 'test.html', context)
 
 
