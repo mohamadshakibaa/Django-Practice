@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load humanize %}
 <section class="recent-blog-area section-gap">
   <div class="container">
     <div class="row d-flex justify-content-center">
@@ -31,6 +31,7 @@
             </div>
             <hr>
             <h6 class="date">{{ post.published_date }}</h6>
+             <p>{{ post.published_date|naturaltime }}</p>
           </div>
         </div>
         {% endfor %}
