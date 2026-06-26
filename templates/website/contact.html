@@ -52,6 +52,16 @@
         </div>
       </div>
       <div class="col-lg-8">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-dismissible alert-success">
+              <button type="button" class="close" data-dismiss="alert">
+              ×
+              </button>
+              <strong>{{message}}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
         <form class="form-area contact-form text-right" action="{% url 'website:contact' %}" method="post">
           <div class="row">
             <div class="col-lg-6 form-group">

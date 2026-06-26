@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from blog.models import Post
+from website.models import Contact
 from website.forms import NameForm, ContactForm, NewsletterForm
+from django.contrib import messages
 
 def index(request):
     posts = Post.objects.filter(status=1)
@@ -15,7 +17,12 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()
+            change = form.save(commit=False)
+            # change.name = 'anonymos'            change to eneything
+            change.save()
+            messages.add_message(request, messages.SUCCESS, 'Your details save')
+        else:
+            messages.add_message(request, messages.ERROR, 'Your details didnt save')
     form = ContactForm()
     return render(request, 'website/contact.html', {'form': form})
 
