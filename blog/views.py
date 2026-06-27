@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from blog.models import Post
+from blog.models import Post, Comment
 from django.utils import timezone
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
@@ -30,11 +30,9 @@ def blog_single(request, pid):
     post = get_object_or_404(posts, pk=pid)
     next_post = Post.objects.filter(id__gt=post.id).order_by('id').first()
     prev_post = Post.objects.filter(id__lt=post.id).order_by('-id').first()
-    context = {
-                'post': post,
-                'next_post': next_post,
-                'prev_post': prev_post,
-            }
+    
+    comments = Comment.objects.filter(post=post.id, approved=True)
+    context = {'post': post, 'next_post': next_post, 'prev_post': prev_post, 'comments': comments}
     return render(request, 'blog/blog-single.html', context)
 
 

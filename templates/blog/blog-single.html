@@ -2,6 +2,7 @@
 {% load static %} 
 {% load blog_tags %}
 {% load comments %}
+{% load humanize %}
 {% block content %}
 <!-- start banner Area -->
 <section class="relative about-banner">
@@ -44,14 +45,13 @@
               <p class="user-name col-lg-12 col-md-12 col-6"><a href="#">{{post.author.get_full_name}}</a> <span class="lnr lnr-user"></span></p>
               <p class="date col-lg-12 col-md-12 col-6"><a href="#">{{ post.published_date|date:"d M Y"}}</a><span class="lnr lnr-calendar-full"></span></p>
               <p class="view col-lg-12 col-md-12 col-6"><a href="#">{{post.counted_views}} Views</a> <span class="lnr lnr-eye"></span></p>
-              <p class="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span class="lnr lnr-bubble"></span></p>
+              <p class="comments col-lg-12 col-md-12 col-6"><a href="#">{{ comments|length }} Comments</a> <span class="lnr lnr-bubble"></span></p>
               
             </div>
           </div>
           <div class="col-lg-12">
             <h2 class="mt-20 mb-20">{{post.title}}</h2>
               <h6>{{post.content|safe}}</h6>
-              <p><p></p></p>
             <ul class="social-links col-lg-12 col-md-12 col-6 ">
                 <li>
                   <a href="#"><i class="fa fa-facebook"></i></a>
@@ -65,14 +65,14 @@
                 <li>
                   <a href="#"><i class="fa fa-behance"></i></a>
                 </li>
-                <ul class="d-flex justify-content-between align-items-center mt-4">
+                <div class="d-flex justify-content-between align-items-center mt-4">
               <h5 class="post-date">
                 {% for cat in post.category.all %}
                 {{ cat.name }}
                 {% if not forloop.last %},
                 {% endif %}
                 {% endfor %}</h5>
-                </ul>
+                </div>
               </ul>
 
 
@@ -129,6 +129,7 @@
             <div
               class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center"
             >
+              {% if prev_post %}
               <div class="thumb">
                 <a href="{% url 'blog:single' pid=prev_post.id %}"
                   ><img
@@ -137,6 +138,7 @@
                     alt=""
                 /></a>
               </div>
+              {% endif %}
               <div class="arrow">
                 <a href="#"
                   ><span class="lnr text-white lnr-arrow-left"></span
@@ -147,9 +149,10 @@
               </div>
             </div>
             <div
-              class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center"
-            >
+              class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+            {% if next_post %}
               <div class="detials">
+                
                 <a href="{% url 'blog:single' pid=next_post.id %}"><h4>Next Post</h4></a>
               </div>
               <div class="arrow">
@@ -165,119 +168,34 @@
                     alt=""
                 /></a>
               </div>
+            {% endif %}
             </div>
           </div>
         </div><hr>
 
-        <div id="disqus_thread"></div>
-          <script>
-              /**
-              *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-              *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-              /*
-              var disqus_config = function () {
-              this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-              this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-              };
-              */
-              (function() { // DON'T EDIT BELOW THIS LINE
-              var d = document, s = d.createElement('script');
-              s.src = 'https://bigdeli.disqus.com/embed.js';
-              s.setAttribute('data-timestamp', +new Date());
-              (d.head || d.body).appendChild(s);
-              })();
-          </script>
-          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-        <!--
+        
         <div class="comments-area">
-          <h4>05 Comments</h4>
+          <h4>{{ comments|length }} Comments</h4>
           <div class="comment-list">
+            {% for comment in comments %}
             <div class="single-comment justify-content-between d-flex">
               <div class="user justify-content-between d-flex">
                 <div class="thumb">
                   <img src="{% static 'css/img/blog/c1.jpg' %}" alt="" />
                 </div>
                 <div class="desc">
-                  <h5><a href="#">Emilly Blunt</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
+                  <h5><a href="#">{{ comment.name }}</a></h5>
+                  <p class="date">{{ comment.created_date|naturalday }}</p>
+                  <p class="comment">{{ comment.message|safe }}</p>
                 </div>
               </div>
               <div class="reply-btn">
                 <a href="" class="btn-reply text-uppercase">reply</a>
               </div>
             </div>
+            {% endfor %}
           </div>
-          <div class="comment-list left-padding">
-            <div class="single-comment justify-content-between d-flex">
-              <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img src="{% static 'css/img/blog/c2.jpg' %}" alt="" />
-                </div>
-                <div class="desc">
-                  <h5><a href="#">Elsie Cunningham</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
-                </div>
-              </div>
-              <div class="reply-btn">
-                <a href="" class="btn-reply text-uppercase">reply</a>
-              </div>
-            </div>
-          </div>
-          <div class="comment-list left-padding">
-            <div class="single-comment justify-content-between d-flex">
-              <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img src="{% static 'css/img/blog/c3.jpg' %}" alt="" />
-                </div>
-                <div class="desc">
-                  <h5><a href="#">Annie Stephens</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
-                </div>
-              </div>
-              <div class="reply-btn">
-                <a href="" class="btn-reply text-uppercase">reply</a>
-              </div>
-            </div>
-          </div>
-          <div class="comment-list">
-            <div class="single-comment justify-content-between d-flex">
-              <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img src="{% static 'css/img/blog/c4.jpg' %}" alt="" />
-                </div>
-                <div class="desc">
-                  <h5><a href="#">Maria Luna</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
-                </div>
-              </div>
-              <div class="reply-btn">
-                <a href="" class="btn-reply text-uppercase">reply</a>
-              </div>
-            </div>
-          </div>
-          <div class="comment-list">
-            <div class="single-comment justify-content-between d-flex">
-              <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img src="{% static 'css/img/blog/c5.jpg' %}" alt="" />
-                </div>
-                <div class="desc">
-                  <h5><a href="#">Ina Hayes</a></h5>
-                  <p class="date">December 4, 2017 at 3:12 pm</p>
-                  <p class="comment">Never say goodbye till the end comes!</p>
-                </div>
-              </div>
-              <div class="reply-btn">
-                <a href="" class="btn-reply text-uppercase">reply</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="comment-form">
+
           <h4>Leave a Comment</h4>
           <form>
             <div class="form-group form-inline">
@@ -325,7 +243,7 @@
             </div>
             <a href="#" class="primary-btn text-uppercase">Post Comment</a>
           </form>
-        </div>-->
+        </div>
       </div>
       <div class="col-lg-4 sidebar-widgets">
         <div class="widget-wrap">
