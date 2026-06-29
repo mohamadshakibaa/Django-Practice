@@ -47,15 +47,15 @@ INSTALLED_APPS = [
     "captcha",
     "simplemathcaptcha",
     "django_comments",
-    
     "website",
     "blog",
+    "accounts",
 ]
 
 # sites framework
 SITE_ID = 2
 
-# robots 
+# robots
 ROBOTS_USE_HOST = False
 ROBOTS_USE_SITEMAP = False
 
