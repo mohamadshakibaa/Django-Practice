@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from blog.models import Post, Comment
 from django.utils import timezone
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from blog.forms import CommentForm
+from django.contrib import messages
 
 
 def blog_view(request,**kwargs):
@@ -26,13 +28,21 @@ def blog_view(request,**kwargs):
 
 
 def blog_single(request, pid):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Your comment send to approve')
+        else:
+            messages.add_message(request, messages.ERROR, 'Your comment dont send to approve')
     posts = Post.objects.filter(status = 1)
     post = get_object_or_404(posts, pk=pid)
     next_post = Post.objects.filter(id__gt=post.id).order_by('id').first()
     prev_post = Post.objects.filter(id__lt=post.id).order_by('-id').first()
-    
     comments = Comment.objects.filter(post=post.id, approved=True)
-    context = {'post': post, 'next_post': next_post, 'prev_post': prev_post, 'comments': comments}
+    
+    form = CommentForm()
+    context = {'post': post, 'next_post': next_post, 'prev_post': prev_post, 'comments': comments, 'form': form}
     return render(request, 'blog/blog-single.html', context)
 
 
