@@ -20,9 +20,10 @@ def login_view(request):
                 if user is not None:
                     login(request, user)
                     next_url = request.POST.get('next')
-                    if next_url:
-                        return redirect(next_url)
-                    return redirect('/')
+                    if not next_url or next_url == "None":
+                        next_url = "/"
+
+                    return redirect(next_url)
                         
         form = AuthenticationForm()
         context = {'form': form, 'next': request.GET.get('next')}
