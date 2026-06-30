@@ -19,12 +19,19 @@ def login_view(request):
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
                     login(request, user)
-                    return  redirect('/')
-        
+                    next_url = request.POST.get('next')
+                    if next_url:
+                        return redirect(next_url)
+                    return redirect('/')
+                        
         form = AuthenticationForm()
-        context = {'form': form}
+        context = {'form': form, 'next': request.GET.get('next')}
         return render(request, 'accounts/login.html', context)
     else:
+        next_url = request.GET.get('next')
+        if next_url:
+            return redirect(next_url)
+
         return redirect('/')
 
 @login_required

@@ -199,7 +199,11 @@
           <h4>Leave a Comment</h4>
           <form method='post' action='{% url "blog:single" pid=post.id %}'>
             {% csrf_token %}
-            <input name='post' type="hidden" value={{post.id}}>   {% comment %} very important to save data in your database {% endcomment %}
+            <input name='post' type="hidden" value="{{ post.id }}">   {% comment %} very important to save data in your database {% endcomment %}
+            {% if request.user.is_authenticated %}
+            <input type="hidden" name='name' value="{{ request.user.first_name }}">
+            <input type="hidden" name='email' value="{{ request.user.email }}">
+            {% else %}
             <div class="form-group form-inline">
               <div class="form-group col-lg-6 col-md-12 name">
                 <input
@@ -222,6 +226,7 @@
                 />
               </div>
             </div>
+            {% endif %}
             <div class="form-group">
               <input
                 type="text"
